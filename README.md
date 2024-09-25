@@ -8,6 +8,12 @@
 - `前缀`字符数+`后缀`字符数不要超过 `3`
 
 
+具体流程图:
+
+![](https://raw.githubusercontent.com/youngqqcn/repo4picgo/master/img/vanity_address2.png)
+
+
+
 ## Typescript版本
 
 
@@ -17,7 +23,6 @@
 
 ```
 yarn
-
 
 yarn start
 ```

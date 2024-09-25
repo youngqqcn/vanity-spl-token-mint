@@ -70,8 +70,7 @@ func generateVanityAddress(c context.Context, prefix string, suffix string) (wal
 }
 
 func main() {
-	// wallet, err := generateVanityAddress(context.Background(), "", "fans")
-	wallet, err := generateVanityAddress(context.Background(), "ait", "")
+	wallet, err := generateVanityAddress(context.Background(), "fan", "")
 	if err != nil {
 		log.Printf("error: %v", err.Error())
 	}

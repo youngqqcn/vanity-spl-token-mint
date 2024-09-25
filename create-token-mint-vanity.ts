@@ -54,44 +54,49 @@ async function generateVanityAddress(
 async function main() {
     const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
-    let base58PrivateKey = process.env.PRIV_KEY;
-    if (!base58PrivateKey) {
-        throw new Error("未设置私钥");
-    }
-    const payer = base58ToKeypair(base58PrivateKey);
 
     console.log("开始创建token mint");
 
     // const mintKeypair = Keypair.generate();
 
     console.log("开始生成虚荣地址");
-    const mintKeypair = await generateVanityAddress("", "fan");
+    const mintKeypair = await generateVanityAddress("fan", "");
     if (!mintKeypair) {
         throw new Error("未找到满足要求的 keypair,请重试");
     }
     console.log("虚荣地址生成成功: ", mintKeypair.publicKey.toBase58());
 
-    // const mint = await createMint(
-    //     connection,
-    //     payer,
-    //     payer.publicKey,
-    //     payer.publicKey,
-    //     9,
-    //     mintKeypair,
-    //     { commitment: connection.commitment },
-    //     TOKEN_PROGRAM_ID
-    // );
 
-    // console.log("token mint创建成功, mint: ", mint);
 
-    // console.log("开始获取 token mint的信息");
-    // const mintInfo = await getMint(
-    //     connection,
-    //     mintKeypair.publicKey,
-    //     connection.commitment,
-    //     TOKEN_PROGRAM_ID
-    // );
-    // console.log("token mint的信息:", mintInfo);
+    // 创建 token mint
+    let base58PrivateKey = process.env.PRIV_KEY;
+    if (!base58PrivateKey) {
+        console.log("请在 .env 设置 PRIV_KEY 私钥")
+        return
+    }
+    
+    const payer = base58ToKeypair(base58PrivateKey);
+    const mint = await createMint(
+        connection,
+        payer,
+        payer.publicKey,
+        payer.publicKey,
+        9,
+        mintKeypair,
+        { commitment: connection.commitment },
+        TOKEN_PROGRAM_ID
+    );
+
+    console.log("token mint创建成功, mint: ", mint);
+
+    console.log("开始获取 token mint的信息");
+    const mintInfo = await getMint(
+        connection,
+        mintKeypair.publicKey,
+        connection.commitment,
+        TOKEN_PROGRAM_ID
+    );
+    console.log("token mint的信息:", mintInfo);
 }
 
 main()
