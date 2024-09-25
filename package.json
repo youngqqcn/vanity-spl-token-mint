@@ -1,0 +1,23 @@
+{
+    "name": "vanity-spl-token-mint",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:youngqqcn/vanity-spl-token-mint.git",
+    "author": "yqq <youngqqcn@gmail.com>",
+    "scripts": {
+        "start": "ts-node vanity.ts"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@solana/spl-token": "^0.4.8",
+        "@solana/web3.js": "^1.95.3",
+        "@types/bn.js": "^5.1.5",
+        "@types/node": "^22.5.0",
+        "bs58": "^6.0.0",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.5.4",
+        "vanity-solana": "^1.0.6"
+    }
+}
