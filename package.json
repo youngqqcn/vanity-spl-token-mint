@@ -5,7 +5,7 @@
     "repository": "git@github.com:youngqqcn/vanity-spl-token-mint.git",
     "author": "yqq <youngqqcn@gmail.com>",
     "scripts": {
-        "start": "ts-node vanity.ts"
+        "start": "ts-node create-token-mint-vanity.ts"
     },
     "license": "MIT",
     "dependencies": {

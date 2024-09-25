@@ -38,23 +38,14 @@ function base58ToKeypair(base58PrivateKey: string): Keypair {
  */
 async function generateVanityAddress(
     prefix: string,
-    suffix: string,
-    caseSensitive: boolean
+    suffix: string
 ): Promise<Keypair | undefined> {
     for (let i = 0; i < 1000000; i++) {
         const keypair = Keypair.generate();
 
-        // 处理大小写敏感
         const address = keypair.publicKey.toBase58();
-        const addressToCheck = caseSensitive ? address : address.toLowerCase();
-        const prefixToCheck = caseSensitive ? prefix : prefix.toLowerCase();
-        const suffixToCheck = caseSensitive ? suffix : suffix.toLowerCase();
-
         // 检查是否满足要求
-        if (
-            addressToCheck.startsWith(prefixToCheck) &&
-            addressToCheck.endsWith(suffixToCheck)
-        ) {
+        if (address.startsWith(prefix) && address.endsWith(suffix)) {
             return keypair;
         }
     }
@@ -74,35 +65,33 @@ async function main() {
     // const mintKeypair = Keypair.generate();
 
     console.log("开始生成虚荣地址");
-    const mintKeypair = await generateVanityAddress("", "fan", true);
+    const mintKeypair = await generateVanityAddress("", "fan");
     if (!mintKeypair) {
         throw new Error("未找到满足要求的 keypair,请重试");
     }
     console.log("虚荣地址生成成功: ", mintKeypair.publicKey.toBase58());
 
-    const mint = await createMint(
-        connection,
-        payer,
-        payer.publicKey,
-        payer.publicKey,
-        9,
-        mintKeypair,
-        { commitment: connection.commitment },
-        TOKEN_PROGRAM_ID
-    );
+    // const mint = await createMint(
+    //     connection,
+    //     payer,
+    //     payer.publicKey,
+    //     payer.publicKey,
+    //     9,
+    //     mintKeypair,
+    //     { commitment: connection.commitment },
+    //     TOKEN_PROGRAM_ID
+    // );
 
-    console.log("token mint创建成功, mint: ", mint);
+    // console.log("token mint创建成功, mint: ", mint);
 
-    console.log("开始获取 token mint的信息");
-    const mintInfo = await getMint(
-        connection,
-        mintKeypair.publicKey,
-        connection.commitment,
-        TOKEN_PROGRAM_ID
-    );
-    console.log("token mint的信息:", mintInfo);
-
-
+    // console.log("开始获取 token mint的信息");
+    // const mintInfo = await getMint(
+    //     connection,
+    //     mintKeypair.publicKey,
+    //     connection.commitment,
+    //     TOKEN_PROGRAM_ID
+    // );
+    // console.log("token mint的信息:", mintInfo);
 }
 
 main()
