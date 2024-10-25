@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"os"
 	"runtime"
 	"strings"
 	"sync"
@@ -70,12 +72,25 @@ func generateVanityAddress(c context.Context, prefix string, suffix string) (wal
 }
 
 func main() {
-	wallet, err := generateVanityAddress(context.Background(), "", "idx")
-	if err != nil {
-		log.Printf("error: %v", err.Error())
-	}
-	if wallet != nil {
-		log.Printf("pubkey: %s\n", wallet.PublicKey())
 
+	// 保存到文件
+	f, err := os.OpenFile("output.csv", os.O_APPEND|os.O_WRONLY, 0666)
+	if err != nil {
+		log.Fatal(err)
 	}
+	defer f.Close()
+
+	for {
+		wallet, err := generateVanityAddress(context.Background(), "", "idx")
+		if err != nil {
+			log.Printf("error: %v", err.Error())
+		}
+		if wallet != nil {
+			log.Printf("private: %s\n", wallet.PrivateKey.String())
+			log.Printf("pubkey: %s\n", wallet.PublicKey())
+
+			fmt.Fprintf(f, "%s,%s\n", wallet.PublicKey(), wallet.PrivateKey.String())
+		}
+	}
+
 }
