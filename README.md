@@ -10,7 +10,7 @@
 
 具体流程图:
 
-![](https://raw.githubusercontent.com/youngqqcn/repo4picgo/master/img/vanity_address2.png)
+![](./flow.png)
 
 
 
